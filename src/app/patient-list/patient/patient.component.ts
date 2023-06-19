@@ -95,68 +95,70 @@ export class PatientComponent {
     const birthDate = new Date(this.patient.dateofbirth);
     const ageInYears = currentDate.getFullYear() - birthDate.getFullYear();
     if (ageInYears >= 18) {
-      const lastTudSzuroIndex = this.patient.histories.findIndex(history =>
+      const tudSzuroVizsgalatok = this.patient.histories.filter(history =>
         history.procedure === 'tüdőszűrő vizsgálat'
       );
+      const oneYearAgo = new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate());
   
-      if (lastTudSzuroIndex === -1) {
+      const tudSzuroVizsgalatElozoEvben = tudSzuroVizsgalatok.some(history => {
+        const vizsgalatDate = new Date(history.date);
+        return vizsgalatDate > oneYearAgo;
+      });
+      
+      if (tudSzuroVizsgalatok.length === 0 || !tudSzuroVizsgalatElozoEvben) {
         checkupList.push('tüdőszűrő vizsgálat');
-      } else {
-        const lastTudSzuroDate = new Date(this.patient.histories[lastTudSzuroIndex].date);
-        const nextTudSzuroDate = new Date(lastTudSzuroDate.getFullYear() + 1, lastTudSzuroDate.getMonth(), lastTudSzuroDate.getDate());
-  
-        if (nextTudSzuroDate <= currentDate) {
-          checkupList.push('tüdőszűrő vizsgálat');
-        }
       }
+      
     }
     if (ageInYears >= 35 && this.patient.gender === 'férfi') {
-      const lastProsztataVizsgalatIndex = this.patient.histories.findIndex(history =>
+      const prosztataVizsgalatok = this.patient.histories.filter(history =>
         history.procedure === 'prosztata vizsgálat'
       );
-  
-      if (lastProsztataVizsgalatIndex === -1) {
+      
+      const twoYearsAgo = new Date(currentDate.getFullYear() - 2, currentDate.getMonth(), currentDate.getDate());
+      
+      const prosztataVizsgalatElozoKetEvben = prosztataVizsgalatok.some(history => {
+        const vizsgalatDate = new Date(history.date);
+        return vizsgalatDate > twoYearsAgo;
+      });
+      
+      if (prosztataVizsgalatok.length === 0 || !prosztataVizsgalatElozoKetEvben) {
         checkupList.push('prosztata vizsgálat');
-      } else {
-        const lastProsztataVizsgalatDate = new Date(this.patient.histories[lastProsztataVizsgalatIndex].date);
-        const nextProsztataVizsgalatDate = new Date(lastProsztataVizsgalatDate.getFullYear() + 2, lastProsztataVizsgalatDate.getMonth(), lastProsztataVizsgalatDate.getDate());
-  
-        if (nextProsztataVizsgalatDate <= currentDate) {
-          checkupList.push('prosztata vizsgálat');
-        }
       }
+      
     }
   
     if (ageInYears >= 45 && this.patient.gender === 'nő') {
-      const lastMammografiaIndex = this.patient.histories.findIndex(history =>
+      const mammografiaVizsgalatok = this.patient.histories.filter(history =>
         history.procedure === 'mammográfiai vizsgálat'
       );
-  
-      if (lastMammografiaIndex === -1) {
+      
+      const threeYearsAgo = new Date(currentDate.getFullYear() - 3, currentDate.getMonth(), currentDate.getDate());
+      
+      const mammografiaVizsgalatElozoHaromEvben = mammografiaVizsgalatok.some(history => {
+        const vizsgalatDate = new Date(history.date);
+        return vizsgalatDate > threeYearsAgo;
+      });
+      
+      if (mammografiaVizsgalatok.length === 0 || !mammografiaVizsgalatElozoHaromEvben) {
         checkupList.push('mammográfiai vizsgálat');
-      } else {
-        const lastMammografiaDate = new Date(this.patient.histories[lastMammografiaIndex].date);
-        const nextMammografiaDate = new Date(lastMammografiaDate.getFullYear() + 3, lastMammografiaDate.getMonth(), lastMammografiaDate.getDate());
-  
-        if (nextMammografiaDate <= currentDate) {
-          checkupList.push('mammográfiai vizsgálat');
-        }
       }
+      
     }
-    const lastGeneralCheckupIndex = this.patient.histories.findIndex(history =>
+    const altalanosVizsgalatok = this.patient.histories.filter(history =>
       history.procedure === 'általános vizsgálat'
     );
     
-    if (lastGeneralCheckupIndex === -1) {
-      checkupList.push('általános vizsgálat');
-    } else {
-      const lastGeneralCheckupDate = new Date(this.patient.histories[lastGeneralCheckupIndex].date);
-      const nextGeneralCheckupDate = new Date(lastGeneralCheckupDate.getFullYear() + 5, lastGeneralCheckupDate.getMonth(), lastGeneralCheckupDate.getDate());
+    const fiveYearsAgo = new Date(currentDate.getFullYear() - 5, currentDate.getMonth(), currentDate.getDate());
     
-      if (nextGeneralCheckupDate <= currentDate) {
-        checkupList.push('általános vizsgálat');
-      }
-    }    
+    const altalanosVizsgalatElozoOtEvben = altalanosVizsgalatok.some(history => {
+      const vizsgalatDate = new Date(history.date);
+      return vizsgalatDate > fiveYearsAgo;
+    });
+    
+    if (altalanosVizsgalatok.length === 0 || !altalanosVizsgalatElozoOtEvben) {
+      checkupList.push('általános vizsgálat');
+    }        
     return checkupList;
   }
 }
