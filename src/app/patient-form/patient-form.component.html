@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </div>
+            <form [formGroup]="patientForm">
+                <input type="text" class="form-control" id="id" formControlName="id" *ngIf="!changeForm">
+                <label for="name" *ngIf="!changeForm">Név</label >
+                <input type="text" class="form-control" id="name" formControlName="name" *ngIf="!changeForm">
+                <div class="text-danger" *ngIf="name!.invalid && (name!.dirty || name!.touched) && !changeForm">
+                    <small>A név szükséges</small>
+                </div>
+                <label for="dateofbirth" *ngIf="!changeForm">Születési idő</label>
+                <input type="text" class="form-control" id="dateofbirth" formControlName="dateofbirth" *ngIf="!changeForm">
+                <div class="text-danger" *ngIf="dateofbirth!.invalid && (dateofbirth!.dirty || dateofbirth!.touched) && !changeForm">
+                    <small>YYYY.MM.DD.</small>
+                </div>
+                <label for="socialsecuritynumber" *ngIf="!changeForm">Taj szám</label>
+                <input type="number" class="form-control" id="socialsecuritynumber" formControlName="socialsecuritynumber" *ngIf="!changeForm">
+                <div class="text-danger" *ngIf="socialsecuritynumber!.invalid && (socialsecuritynumber!.dirty || socialsecuritynumber!.touched) && !changeForm">
+                    <small>9 szám</small>
+                </div>
+                <label for="gender" *ngIf="!changeForm">Nem</label>
+                <select class="form-control" id="gender" formControlName="gender" *ngIf="!changeForm">
+                    <option>férfi</option>
+                    <option>nő</option>
+                </select>
+                <div class="text-danger" *ngIf="gender!.invalid && (gender!.dirty || gender!.touched) && !changeForm">
+                    <small>Nem lehet üres</small>
+                </div>
+                <select class="form-control" name="hisotries" id="histories" multiple formControlName="histories" *ngIf="changeForm">
+                    <option [ngValue]="history" *ngFor="let history of patient.histories">{{ history.procedure }}</option>
+                </select>
+                <button class="btn btn-primary mt-2" (click)="addPatient()" [disabled]="patientForm.invalid">Mentés</button>
+            </form>
+            <form [formGroup]="historyForm" *ngIf="changeForm">
+                <label for="procedure">Eljárás</label>
+                <input type="text" class="form-control" id="procedure" formControlName="procedure">
+                <div class="text-danger" *ngIf="procedure!.invalid && (procedure!.dirty || procedure!.touched)">
+                    <small>Eljárás neve szükséges</small>
+                </div>
+                <label for="date">Dátum</label>
+                <input type="text" class="form-control" id="date" formControlName="date">
+                <div class="text-danger" *ngIf="date!.invalid && (date!.dirty || date!.touched)">
+                    <small>YYYY.MM.DD.</small>
+                </div>
+                <button class="btn btn-primary mt-2" (click)="addHistory()" [disabled]="historyForm.invalid">Eljárás hozzáadás</button>   
+            </form>
+            <button class="btn btn-primary mt-2" (click)="changeView()" *ngIf="showChange">Másik form</button>
+        </div>
+    </div>
+    
+</div>

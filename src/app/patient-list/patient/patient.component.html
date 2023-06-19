@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-9">
+        <h5> Név: {{patient.name}}
+        <span class="badge" style="background: blue">Taj: {{patient.socialsecuritynumber}}</span>
+        <button class="btn btn-sm btn-primary" (click)="navigateToPatientForm(patient.id)">Módosítás</button>
+        <button class="btn btn-sm btn-danger" (click)="deletePatient(patient.id)">Törlés</button>
+    </h5>
+        <p>Nem: {{patient.gender}}</p>
+        <p>Születési idő: {{patient.dateofbirth}}</p>
+        <h6>Kórtörténet:</h6>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let history of patient.histories">
+                {{ history.procedure }} 
+                {{ history.date }}
+                <button class="btn btn-sm btn-primary" (click)="navigateToHistoryForm(history.id)">Módosítás</button>
+                <button class="btn btn-sm btn-danger" (click)="deleteHistory(history.id)">Törlés</button>
+            </li>
+        </ul>
+        
+        <ul class="list-inline">
+            <h6 class="list-inline-item">Szükséges vizsgálatok:</h6>
+            <li class="list-inline-item" *ngFor="let checkupItem of generateCheckupList()">{{ checkupItem }}</li>
+        </ul>
+        <h6>Diagnózis:</h6>
+        <ul>
+            <li style="list-style-type:none;" *ngFor="let diagnosis of patient.diagnoses">
+                {{ diagnosis.title }}
+                <button class="btn btn-sm btn-danger" (click)="deleteDiagnosis(diagnosis.id)">Törlés</button>
+            </li>
+        </ul>
+        <div class="col-md-6">
+            <input class="form-control" [(ngModel)]="newDiagnosisTitle">
+            <button class="btn btn-primary" (click)="createDiagnosis()">Diagnózis hozzáadás</button>
+        </div>
+    </div>
+</div>

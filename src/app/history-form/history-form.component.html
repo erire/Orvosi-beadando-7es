@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </div>
+            <form [formGroup]="historyForm">
+                <input type="text" class="form-control" id="id" formControlName="id" >
+                <label for="procedure">Eljárás</label>
+                <input type="text" class="form-control" id="procedure" formControlName="procedure">
+                <label for="date">Dátum</label>
+                <input type="text" class="form-control" id="date" formControlName="date">
+                <button class="btn btn-primary mt-2" (click)="addHistory()">Mentés</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
