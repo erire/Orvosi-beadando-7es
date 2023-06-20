@@ -30,7 +30,10 @@
                     <small>Nem lehet üres</small>
                 </div>
                 <select class="form-control" name="hisotries" id="histories" multiple formControlName="histories" *ngIf="changeForm">
-                    <option [ngValue]="history" *ngFor="let history of patient.histories">{{ history.procedure }}</option>
+                    <option [ngValue]="history" *ngFor="let history of patient.histories">
+                        {{ history.procedure }}
+                        {{ history.date }}
+                    </option>
                 </select>
                 <button class="btn btn-primary mt-2" (click)="addPatient()" [disabled]="patientForm.invalid">Mentés</button>
             </form>

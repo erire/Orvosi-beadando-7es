@@ -104,7 +104,6 @@ export class PatientComponent {
         const vizsgalatDate = new Date(history.date);
         return vizsgalatDate > oneYearAgo;
       });
-      
       if (tudSzuroVizsgalatok.length === 0 || !tudSzuroVizsgalatElozoEvben) {
         checkupList.push('tüdőszűrő vizsgálat');
       }
